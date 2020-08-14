@@ -1,5 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,8 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
-
-        controls.Gameplay.Start.performed += ctx => PlayPause();
 
         controls.Gameplay.Left.performed += ctx => horizontalMove = OnMoveLeft();
         controls.Gameplay.Left.canceled += ctx => horizontalMove = 0f;
@@ -48,16 +48,24 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       /* horizontalMove = Input.GetAxisRaw("Horizontal") * walkSpeed; */
+
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-    }
 
-    void PlayPause()
-    {
-        Debug.Log(SceneManager.GetActiveScene().name);
-
-        if (SceneManager.GetActiveScene().name == "Menu")
+       /* if (Input.GetButtonDown("Jump"))
         {
+            _isJumping = true;
+            animator.SetBool("isJumping", true);
         }
+
+        if (Input.GetButtonDown("Crouch"))
+        {
+            _isCrouching = true;
+        }
+        else if (Input.GetButtonUp("Crouch"))
+        {
+            _isCrouching = false;
+        }*/
     }
 
     float OnMoveLeft()
@@ -104,6 +112,12 @@ public class PlayerMovement : MonoBehaviour
         _isCrouching = false;
         animator.SetBool("isCrouching", false);
     }
+
+    /*public void OnCrouching(bool isCrouching)
+    {
+        Debug.Log("Are you crouching? " + isCrouching);
+        animator.SetBool("isCrouching", isCrouching);
+    }*/
 
     private void FixedUpdate()
     {
